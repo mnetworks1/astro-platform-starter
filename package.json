@@ -1,34 +1,3398 @@
-{
-  "name": "astro-netlify-platform-starter",
-  "type": "module",
-  "version": "0.1.0",
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@astrojs/netlify": "^6.2.3",
-    "@astrojs/react": "^4.2.1",
-    "@fontsource-variable/inter": "^5.2.5",
-    "@netlify/blobs": "^8.2.0",
-    "@netlify/functions": "^2.8.2",
-    "@tailwindcss/vite": "^4.0.14",
-    "@types/react": "^18.2.79",
-    "@types/react-dom": "^18.2.25",
-    "astro": "^5.5.3",
-    "blobshape": "^1.0.0",
-    "marked": "^13.0.0",
-    "marked-shiki": "^1.2.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwindcss": "^4.0.14",
-    "unique-names-generator": "^4.7.1"
-  },
-  "devDependencies": {
-    "@types/blobshape": "^1.0.3",
-    "@types/node": "^20.12.7"
-  }
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M Networks - Connect. Empower. Grow.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000000; /* Black */
+            color: #FFFFFF; /* White text */
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        a {
+            color: #FF6600; /* Orange links */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #FFA500; /* Slightly lighter orange on hover */
+        }
+
+        button {
+            background-color: #FF6600; /* Orange button */
+            color: #000000; /* Black text on orange */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            background-color: #FFA500; /* Lighter orange on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: #FF6600;
+            margin-bottom: 20px;
+        }
+
+        h1 { font-size: 3.5em; }
+        h2 { font-size: 2.5em; }
+        h3 { font-size: 2em; }
+        h4 { font-size: 1.5em; }
+
+        /* --- Header --- */
+        .header {
+            background-color: #1a1a1a; /* Darker black for header */
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #FF6600; /* Orange logo */
+        }
+
+        .nav-main ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-main ul li {
+            margin-left: 30px;
+        }
+
+        .nav-main ul li a {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 18px;
+            color: #FFFFFF;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-main ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #FF6600;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-main ul li a:hover::after,
+        .nav-main ul li a.active::after {
+            width: 100%;
+        }
+
+        /* Cart Icon in Header */
+        .cart-icon-container {
+            position: relative;
+            margin-left: 20px;
+            cursor: pointer;
+            color: #FFFFFF;
+            font-size: 24px;
+            transition: color 0.3s ease;
+        }
+
+        .cart-icon-container:hover {
+            color: #FF6600;
+        }
+
+        #cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #FF6600;
+            color: #000000;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 12px;
+            font-weight: bold;
+            display: none; /* Hidden when cart is empty */
+        }
+
+        /* --- Sections --- */
+        section {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        section:nth-of-type(even) {
+            background-color: #0d0d0d;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://via.placeholder.com/1600x800/000000/FFFFFF?text=M+Networks+Banner') no-repeat center center/cover;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 4em;
+            margin-bottom: 10px;
+            color: #FF6600;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-content p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            color: #E0E0E0;
+        }
+
+        .btn-primary {
+            background-color: #FF6600;
+            color: #000000;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #FFA500;
+            transform: translateY(-3px);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #333;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            border-color: #FF6600;
+        }
+
+        .feature-card i {
+            font-size: 3em;
+            color: #FF6600;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            color: #FFFFFF;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #E0E0E0;
+            font-size: 0.95em;
+        }
+
+        /* --- About Us --- */
+        #about .container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            text-align: left;
+        }
+
+        #about .about-image {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+
+        #about .about-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            border: 2px solid #FF6600;
+        }
+
+        #about .about-content {
+            flex: 2;
+            min-width: 400px;
+            padding: 20px;
+        }
+
+        #about .about-content h2 {
+            text-align: left;
+            border-bottom: 2px solid #333;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        #about .about-content p {
+            margin-bottom: 15px;
+            color: #E0E0E0;
+        }
+
+        #about .about-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #about .about-content ul li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+            color: #E0E0E0;
+        }
+
+        #about .about-content ul li::before {
+            content: '\f00c'; /* Check icon */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: #FF6600;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        /* --- Services --- */
+        #services .service-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        #services .service-card {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #333;
+            cursor: pointer; /* Indicate clickable */
+            position: relative;
+            overflow: hidden;
+        }
+
+        #services .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #FF6600;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease-out;
+        }
+
+        #services .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        #services .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            border-color: #FF6600;
+        }
+
+        #services .service-card h3 {
+            color: #FFFFFF;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        #services .service-card p {
+            color: #E0E0E0;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+            min-height: 80px; /* Ensure consistent height */
+        }
+
+        #services .service-card .btn-view-details {
+            background-color: #FF6600;
+            color: #000000;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            border-radius: 5px;
+        }
+
+        /* --- Contact Us --- */
+        #contacts .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        #contacts .contact-item {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            flex: 1;
+            min-width: 280px;
+            max-width: 350px;
+            border: 1px solid #333;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        #contacts .contact-item:hover {
+            transform: translateY(-5px);
+            border-color: #FF6600;
+        }
+
+        #contacts .contact-item i {
+            font-size: 2.5em;
+            color: #FF6600;
+            margin-bottom: 20px;
+        }
+
+        #contacts .contact-item h4 {
+            color: #FFFFFF;
+            margin-bottom: 10px;
+        }
+
+        #contacts .contact-item p {
+            color: #E0E0E0;
+            font-size: 1.1em;
+        }
+        #contacts .contact-item a {
+            font-weight: 600;
+        }
+
+        .contact-form-section {
+            margin-top: 60px;
+            text-align: left;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #1a1a1a;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid #333;
+        }
+
+        .contact-form-section h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 15px;
+            color: #FF6600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #FF6600;
+            font-weight: 600;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea,
+        .form-group select,
+        .form-group input[type="date"],
+        .form-group input[type="number"],
+        .form-group input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 12px;
+            background-color: #0d0d0d;
+            border: 1px solid #FF6600;
+            border-radius: 5px;
+            color: #FFFFFF;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1em;
+        }
+        .form-group select {
+            width: 100%; /* Adjust for select element */
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-form-section button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+        }
+
+        /* --- Login Modal --- */
+        #loginModal .modal-content {
+            max-width: 450px;
+            text-align: center;
+        }
+        #loginModal .modal-content input {
+            margin-bottom: 15px;
+        }
+        #loginModal .modal-content button {
+            margin-top: 10px;
+        }
+        #loginModal .error-message {
+            color: #FF4444;
+            margin-top: 10px;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        /* --- Modal Styles --- */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.8); /* Black background with transparency */
+            backdrop-filter: blur(5px); /* Subtle blur behind the modal */
+            -webkit-backdrop-filter: blur(5px);
+            display: flex; /* Use flexbox for centering */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #1a1a1a; /* Darker black for modal content */
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #FF6600; /* Orange border */
+            width: 90%;
+            max-width: 700px; /* Max width for readability */
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.7); /* Stronger shadow */
+            border-radius: 10px;
+            position: relative;
+            animation: fadeIn 0.3s ease-out; /* Simple fade-in animation */
+            max-height: 90vh; /* Limit height for scrollability */
+            overflow-y: auto; /* Enable scroll if content overflows */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-button {
+            color: #FFFFFF;
+            font-size: 30px;
+            font-weight: bold;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #FF6600; /* Orange on hover */
+            text-decoration: none;
+        }
+
+        .modal-content h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: #FF6600;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .modal-content h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: #FFFFFF;
+            font-size: 20px;
+            margin-top: 15px;
+        }
+
+        .modal-content p, .modal-content ul {
+            font-family: 'Open Sans', sans-serif;
+            color: #E0E0E0; /* Slightly off-white for body text */
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .modal-content ul {
+            list-style-type: none; /* Remove default bullets */
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+
+        .modal-content ul li {
+            padding-left: 25px; /* Indent for custom bullet */
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .modal-content ul li::before {
+            content: '\2022'; /* Unicode bullet point */
+            color: #FF6600; /* Orange bullet */
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        .modal-body .price {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #FF6600;
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .modal-body button.add-to-cart-btn {
+            display: block;
+            width: 80%;
+            max-width: 250px;
+            margin: 0 auto;
+            padding: 12px 25px;
+            font-size: 18px;
+            background-color: #FF6600;
+            color: #000000; /* Black text on orange button for contrast */
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal-body button.add-to-cart-btn:hover {
+            background-color: #FFA500;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Cart & Checkout Modal */
+        #cartModal .modal-content {
+            max-width: 800px;
+        }
+        #cart-items {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        #cart-items th, #cart-items td {
+            padding: 12px;
+            border-bottom: 1px solid #333;
+            text-align: left;
+            color: #E0E0E0;
+        }
+        #cart-items th {
+            background-color: #222;
+            color: #FF6600;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+        #cart-items tr:last-child td {
+            border-bottom: none;
+        }
+        #cart-total {
+            text-align: right;
+            font-size: 1.5em;
+            margin-top: 20px;
+            color: #FF6600;
+            font-weight: 700;
+        }
+        .cart-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        /* Client Registration Form (within modal) */
+        .client-reg-form .form-step {
+            display: none;
+        }
+        .client-reg-form .form-step.active {
+            display: block;
+        }
+        .client-reg-form .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .client-reg-form .form-navigation button {
+            width: 48%;
+        }
+        .client-reg-form h4 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #FF6600;
+        }
+        .client-reg-form label {
+            color: #FF6600;
+        }
+        .client-reg-form .error-message {
+            color: #FF4444;
+            margin-top: 5px;
+            font-size: 0.9em;
+            text-align: left;
+        }
+
+
+        /* Invoice Preview Modal */
+        #invoiceModal .modal-content {
+            max-width: 800px;
+            background: linear-gradient(to bottom right, #1a1a1a, #000000);
+            border: 2px solid #FF6600;
+            padding: 40px;
+        }
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+        .invoice-header .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: #FF6600;
+        }
+        .invoice-header .company-details {
+            text-align: right;
+            color: #E0E0E0;
+            font-size: 0.9em;
+        }
+        .invoice-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            color: #E0E0E0;
+        }
+        .invoice-info div strong {
+            color: #FF6600;
+        }
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .invoice-table th, .invoice-table td {
+            padding: 12px 15px;
+            border: 1px solid #333;
+            text-align: left;
+            color: #E0E0E0;
+        }
+        .invoice-table th {
+            background-color: #222;
+            color: #FF6600;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+        .invoice-table tr:last-child td {
+            border-bottom: 1px solid #333; /* Keep border for subtotal/total */
+        }
+        .invoice-totals {
+            text-align: right;
+            margin-top: 20px;
+            color: #E0E0E0;
+        }
+        .invoice-totals div {
+            margin-bottom: 10px;
+        }
+        .invoice-totals strong {
+            color: #FF6600;
+            font-size: 1.2em;
+        }
+        .invoice-totals .grand-total {
+            font-size: 1.8em;
+            color: #FF6600;
+            font-weight: 700;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 2px solid #FF6600;
+        }
+        .payment-instructions {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #E0E0E0;
+            font-size: 0.95em;
+        }
+        .invoice-actions {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .invoice-actions button {
+            margin: 0 10px;
+        }
+
+        /* --- User/Client Portal Styles --- */
+        #userPortal {
+            display: none; /* Hidden by default */
+            min-height: 80vh;
+            background-color: #0d0d0d;
+            padding-top: 30px;
+        }
+
+        #userPortal .portal-header {
+            background-color: #1a1a1a;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #FF6600;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+        #userPortal .portal-header h2 {
+            color: #FF6600;
+            margin: 0;
+            font-size: 2.2em;
+        }
+        #userPortal .portal-header p {
+            color: #E0E0E0;
+            margin-top: 5px;
+            font-size: 1.1em;
+        }
+
+        #userPortal .portal-nav {
+            display: flex;
+            justify-content: center;
+            background-color: #1a1a1a;
+            border-bottom: 2px solid #FF6600;
+            margin-bottom: 30px;
+            padding: 10px 0;
+        }
+        #userPortal .portal-nav button, #userPortal .portal-nav a.button {
+            background: none;
+            border: none;
+            color: #FFFFFF;
+            padding: 12px 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1em;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s ease;
+            text-decoration: none; /* For the <a> tags acting as buttons */
+            display: inline-block; /* For the <a> tags acting as buttons */
+        }
+        #userPortal .portal-nav button::after, #userPortal .portal-nav a.button::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #FF6600;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        #userPortal .portal-nav button.active::after,
+        #userPortal .portal-nav button:hover::after,
+        #userPortal .portal-nav a.button:hover::after {
+            transform: scaleX(1);
+        }
+        #userPortal .portal-nav button.active,
+        #userPortal .portal-nav a.button.active {
+            color: #FF6600;
+        }
+        /* Style for the VOIP/Partner buttons within the portal nav */
+        #userPortal .portal-nav .external-portal-btn {
+            background-color: #007BFF; /* A distinct color, e.g., blue */
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-left: 15px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+        }
+        #userPortal .portal-nav .external-portal-btn:hover {
+            background-color: #0056b3;
+        }
+        #userPortal .portal-nav .external-portal-btn i {
+            margin-right: 8px;
+        }
+
+
+        #userPortal .portal-content {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            text-align: left;
+            min-height: 400px;
+        }
+        #userPortal .portal-content h3 {
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            color: #FF6600;
+            text-align: center;
+        }
+        #userPortal .portal-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        #userPortal .portal-content table th,
+        #userPortal .portal-content table td {
+            padding: 12px;
+            border-bottom: 1px solid #333;
+            text-align: left;
+            color: #E0E0E0;
+        }
+        #userPortal .portal-content table th {
+            background-color: #222;
+            color: #FF6600;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+        #userPortal .portal-content table td.status-active {
+            color: #4CAF50; /* Green */
+            font-weight: bold;
+        }
+        #userPortal .portal-content table td.status-inactive {
+            color: #FFC107; /* Yellow/Orange */
+            font-weight: bold;
+        }
+        #userPortal .portal-content table td.status-paid {
+            color: #4CAF50; /* Green */
+            font-weight: bold;
+        }
+        #userPortal .portal-content table td.status-unpaid {
+            color: #FF6600; /* Orange */
+            font-weight: bold;
+        }
+        #userPortal .portal-content .dashboard-summary {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        #userPortal .portal-content .summary-card {
+            background-color: #0d0d0d;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            flex: 1;
+            min-width: 200px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        #userPortal .portal-content .summary-card h4 {
+            color: #FF6600;
+            margin-bottom: 10px;
+        }
+        #userPortal .portal-content .summary-card p {
+            font-size: 2em;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+        #userPortal #request-payout-btn {
+            background-color: #4CAF50; /* Green for payout */
+            width: 100%;
+            margin-top: 20px;
+        }
+        #userPortal #request-payout-btn:hover {
+            background-color: #66BB6A;
+        }
+        #userPortal #banking-details-form button {
+            margin-top: 15px;
+        }
+
+        /* Live Chat Button */
+        .live-chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007BFF; /* Blue for chat */
+            color: #FFFFFF;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+            cursor: pointer;
+            z-index: 1000;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .live-chat-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        /* Live Chat Modal */
+        #chatModal .modal-content {
+            max-width: 400px;
+            padding: 20px;
+        }
+        #chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #333;
+            background-color: #0d0d0d;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-message {
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            border-radius: 15px;
+            max-width: 80%;
+            word-wrap: break-word;
+            font-size: 0.9em;
+        }
+        .chat-message.self {
+            background-color: #FF6600;
+            color: #000000;
+            align-self: flex-end;
+            text-align: right;
+            border-bottom-right-radius: 2px;
+        }
+        .chat-message.other {
+            background-color: #333;
+            color: #FFFFFF;
+            align-self: flex-start;
+            text-align: left;
+            border-bottom-left-radius: 2px;
+        }
+        .chat-message.system {
+            background-color: #007BFF;
+            color: #FFFFFF;
+            align-self: center;
+            text-align: center;
+            font-size: 0.8em;
+            padding: 5px 10px;
+            border-radius: 10px;
+            margin: 5px auto;
+        }
+        .chat-message span.timestamp {
+            display: block;
+            font-size: 0.7em;
+            color: #CCC;
+            margin-top: 4px;
+        }
+        .chat-input-container {
+            display: flex;
+        }
+        #chat-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #FF6600;
+            border-radius: 5px;
+            background-color: #0d0d0d;
+            color: #FFFFFF;
+            margin-right: 10px;
+        }
+        #send-chat-btn {
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        /* Admin Portal Specific Styles */
+        #adminPortal {
+            display: none; /* Hidden by default */
+            min-height: 80vh;
+            background-color: #0d0d0d;
+            padding-top: 30px;
+        }
+
+        #adminPortal .admin-header {
+            background-color: #1a1a1a;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #FF6600;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+        #adminPortal .admin-header h2 {
+            color: #FF6600;
+            margin: 0;
+            font-size: 2.2em;
+        }
+        #adminPortal .admin-nav {
+            display: flex;
+            justify-content: center;
+            background-color: #1a1a1a;
+            border-bottom: 2px solid #FF6600;
+            margin-bottom: 30px;
+            padding: 10px 0;
+        }
+        #adminPortal .admin-nav button {
+            background: none;
+            border: none;
+            color: #FFFFFF;
+            padding: 12px 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1em;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        #adminPortal .admin-nav button::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #FF6600;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        #adminPortal .admin-nav button.active::after,
+        #adminPortal .admin-nav button:hover::after {
+            transform: scaleX(1);
+        }
+        #adminPortal .admin-nav button.active {
+            color: #FF6600;
+        }
+        #adminPortal .admin-content {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            text-align: left;
+            min-height: 400px;
+        }
+        #adminPortal .admin-content h3 {
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            color: #FF6600;
+            text-align: center;
+        }
+        #adminPortal .graph-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 30px;
+        }
+
+        /* Admin Chat Specific Styles */
+        #admin-chat-area {
+            display: flex;
+            height: 500px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        #admin-chat-users {
+            width: 200px;
+            background-color: #0d0d0d;
+            border-right: 1px solid #333;
+            padding: 15px;
+            overflow-y: auto;
+        }
+        #admin-chat-users h4 {
+            color: #FF6600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .chat-user-item {
+            padding: 10px;
+            border-bottom: 1px solid #222;
+            cursor: pointer;
+            color: #E0E0E0;
+            transition: background-color 0.2s ease;
+        }
+        .chat-user-item:last-child {
+            border-bottom: none;
+        }
+        .chat-user-item.active, .chat-user-item:hover {
+            background-color: #333;
+            color: #FF6600;
+        }
+        .chat-user-item.has-new-messages {
+            font-weight: bold;
+            color: #FFF;
+        }
+
+        #admin-chat-window {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #1a1a1a;
+        }
+        #admin-chat-display {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column; /* Ensure messages stack */
+        }
+        #admin-chat-input-container {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #333;
+            background-color: #0d0d0d;
+        }
+        #admin-chat-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #FF6600;
+            border-radius: 5px;
+            background-color: #0d0d0d;
+            color: #FFFFFF;
+            margin-right: 10px;
+        }
+        #admin-send-chat-btn {
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        #admin-chat-current-user-header {
+            text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            background-color: #222;
+            color: #FF6600;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+        }
+        #admin-chat-no-user-selected {
+            text-align: center;
+            color: #E0E0E0;
+            margin-top: 50px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">M Networks</div>
+        <nav class="nav-main">
+            <ul>
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contacts">Contact Us</a></li>
+                <li><a href="#" id="login-link">Client Login</a></li>
+            </ul>
+        </nav>
+        <div class="cart-icon-container">
+            <i class="fas fa-shopping-cart" id="cart-icon"></i>
+            <span id="cart-count">0</span>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Connect. Empower. Grow.</h1>
+                <p>Innovative technology solutions to transform your business and empower your journey.</p>
+                <button class="btn-primary">Learn More</button>
+            </div>
+        </section>
+
+        <section id="features" class="container">
+            <h2>Our Core Strengths</h2>
+            <p style="color: #E0E0E0; margin-bottom: 40px;">What makes M Networks your ideal technology partner.</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Robust Security</h3>
+                    <p>Protecting your data and infrastructure with cutting-edge security measures.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-cloud"></i>
+                    <h3>Cloud Solutions</h3>
+                    <p>Scalable and flexible cloud services for seamless operations and growth.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Custom Development</h3>
+                    <p>Tailored software and applications designed to meet your unique business needs.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-headset"></i>
+                    <h3>24/7 Support</h3>
+                    <p>Dedicated support team ready to assist you around the clock.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="container">
+            <div class="about-image">
+                
+                <img src="https://via.placeholder.com/600x400/FF6600/000000?text=M+Networks+Team" alt="M Networks Team">
+            </div>
+            <div class="about-content">
+                <h2>About M Networks</h2>
+                <p>Founded on the principles of **innovation, integrity, and client success**, M Networks is a leading technology solutions provider based in South Africa. We are committed to delivering high-quality, reliable, and secure IT services that drive tangible results for our clients.</p>
+                <p>Our team of experienced professionals brings a wealth of expertise in various technological domains, ensuring that we can tackle any challenge and provide solutions that are not just effective but also future-proof.</p>
+                <ul>
+                    <li>Expertise in diverse IT fields</li>
+                    <li>Client-centric approach</li>
+                    <li>Commitment to excellence</li>
+                    <li>Driving digital transformation</li>
+                </ul>
+                <button class="btn-primary">Our Vision</button>
+            </div>
+        </section>
+
+        <section id="services" class="container">
+            <h2>Our Services</h2>
+            <p style="color: #E0E0E0; margin-bottom: 40px;">Discover the comprehensive range of IT solutions we offer.</p>
+            <div class="service-card-grid">
+                <div class="service-card" data-service-id="1">
+                    <h3>Web Development</h3>
+                    <p>Crafting stunning, responsive, and high-performing websites and web applications.</p>
+                    <button class="btn-view-details">View Details</button>
+                </div>
+                <div class="service-card" data-service-id="2">
+                    <h3>Network Solutions</h3>
+                    <p>Designing, implementing, and managing robust and secure network infrastructures.</p>
+                    <button class="btn-view-details">View Details</button>
+                </div>
+                <div class="service-card" data-service-id="3">
+                    <h3>Cybersecurity</h3>
+                    <p>Comprehensive protection against evolving cyber threats and data breaches.</p>
+                    <button class="btn-view-details">View Details</button>
+                </div>
+                <div class="service-card" data-service-id="4">
+                    <h3>IT Consulting</h3>
+                    <p>Strategic guidance to help businesses leverage technology for optimal growth.</p>
+                    <button class="btn-view-details">View Details</button>
+                </div>
+                <div class="service-card" data-service-id="5">
+                    <h3>Managed IT Services</h3>
+                    <p>Proactive monitoring, maintenance, and support for your entire IT environment.</p>
+                    <button class="btn-view-details">View Details</button>
+                </div>
+                <div class="service-card" data-service-id="6">
+                    <h3>Data Analytics</h3>
+                    <p>Transforming raw data into actionable insights for smarter business decisions.</p>
+                    <button class="btn-view-details">View Details</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacts" class="container">
+            <h2>Get in Touch</h2>
+            <p style="color: #E0E0E0; margin-bottom: 40px;">We'd love to hear from you. Reach out to us through any of the following channels.</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h4>Address</h4>
+                    <p>82-18th Avenue Alexandra 2090</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <h4>Phone Numbers</h4>
+                    <p>+27 10 035 5474</p>
+                    <p>+27 79 874 7587</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <h4>Email Address</h4>
+                    <p><a href="mailto:info@mnetworks.co.za">info@mnetworks.co.za</a></p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-globe"></i>
+                    <h4>Website</h4>
+                    <p><a href="http://mnetworks.co.za" target="_blank">http://mnetworks.co.za</a></p>
+                </div>
+            </div>
+
+            <div class="contact-form-section">
+                <h3>Send Us a Message</h3>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Your Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject:</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message:</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3>Client Login</h3>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="login-username">Username:</label>
+                    <input type="text" id="login-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password:</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <p class="error-message" id="login-error-message">Invalid username or password.</p>
+                <button type="submit">Login</button>
+                <p style="margin-top: 15px; color: #E0E0E0;">Don't have an account? <a href="#" id="register-link">Register Here</a></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="serviceDetailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="modal-body">
+                <h3 id="service-title"></h3>
+                <p id="service-description"></p>
+                <h4>Key Features:</h4>
+                <ul id="service-features"></ul>
+                <div class="price" id="service-price"></div>
+                <button class="add-to-cart-btn" data-service-id="">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3>Your Shopping Cart</h3>
+            <table id="cart-items">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+            <div id="cart-total">Total: R0.00</div>
+            <div class="cart-actions">
+                <button id="clear-cart-btn">Clear Cart</button>
+                <button id="proceed-to-checkout-btn">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="registrationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3>Client Registration</h3>
+            <form id="clientRegistrationForm" class="client-reg-form">
+                <div class="form-step active" id="step1">
+                    <h4>Personal Information</h4>
+                    <div class="form-group">
+                        <label for="reg-firstname">First Name:</label>
+                        <input type="text" id="reg-firstname" required>
+                        <p class="error-message" id="error-firstname"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-lastname">Last Name:</label>
+                        <input type="text" id="reg-lastname" required>
+                        <p class="error-message" id="error-lastname"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Email:</label>
+                        <input type="email" id="reg-email" required>
+                        <p class="error-message" id="error-email"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-phone">Phone Number:</label>
+                        <input type="text" id="reg-phone" required>
+                        <p class="error-message" id="error-phone"></p>
+                    </div>
+                    <div class="form-navigation">
+                        <button type="button" id="next-step-1">Next</button>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step2">
+                    <h4>Account Details</h4>
+                    <div class="form-group">
+                        <label for="reg-username">Choose Username:</label>
+                        <input type="text" id="reg-username" required>
+                        <p class="error-message" id="error-username-reg"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Password:</label>
+                        <input type="password" id="reg-password" required>
+                        <p class="error-message" id="error-password-reg"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-confirm-password">Confirm Password:</label>
+                        <input type="password" id="reg-confirm-password" required>
+                        <p class="error-message" id="error-confirm-password"></p>
+                    </div>
+                    <div class="form-navigation">
+                        <button type="button" id="prev-step-2">Previous</button>
+                        <button type="button" id="next-step-2">Next</button>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step3">
+                    <h4>Address Information</h4>
+                    <div class="form-group">
+                        <label for="reg-address-line1">Address Line 1:</label>
+                        <input type="text" id="reg-address-line1" required>
+                        <p class="error-message" id="error-address1"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-address-line2">Address Line 2 (Optional):</label>
+                        <input type="text" id="reg-address-line2">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-city">City:</label>
+                        <input type="text" id="reg-city" required>
+                        <p class="error-message" id="error-city"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-province">Province:</label>
+                        <input type="text" id="reg-province" required>
+                        <p class="error-message" id="error-province"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-postal-code">Postal Code:</label>
+                        <input type="text" id="reg-postal-code" required>
+                        <p class="error-message" id="error-postalcode"></p>
+                    </div>
+                    <div class="form-navigation">
+                        <button type="button" id="prev-step-3">Previous</button>
+                        <button type="submit">Register</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="invoiceModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="invoice-header">
+                <div class="logo-text">M Networks</div>
+                <div class="company-details">
+                    <p>82-18th Avenue Alexandra 2090</p>
+                    <p>+27 10 035 5474 | +27 79 874 7587</p>
+                    <p>info@mnetworks.co.za | http://mnetworks.co.za</p>
+                </div>
+            </div>
+            <h3 style="text-align: center; color: #FF6600; margin-bottom: 20px;">Invoice Preview</h3>
+            <div class="invoice-info">
+                <div>
+                    <h4>Billed To:</h4>
+                    <p id="invoice-client-name"></p>
+                    <p id="invoice-client-address"></p>
+                    <p id="invoice-client-email"></p>
+                </div>
+                <div>
+                    <p><strong>Invoice Date:</strong> <span id="invoice-date"></span></p>
+                    <p><strong>Invoice #:</strong> <span id="invoice-number"></span></p>
+                </div>
+            </div>
+
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="invoice-items-table-body">
+                    </tbody>
+            </table>
+
+            <div class="invoice-totals">
+                <div>Subtotal: R<span id="invoice-subtotal">0.00</span></div>
+                <div>Tax (15%): R<span id="invoice-tax">0.00</span></div>
+                <div class="grand-total">Grand Total: R<span id="invoice-grand-total">0.00</span></div>
+            </div>
+
+            <div class="payment-instructions">
+                <h4>Payment Instructions:</h4>
+                <p>Please make payment to the following account:</p>
+                <p><strong>Bank:</strong> Capitec</p>
+                <p><strong>Account Name:</strong> SM Mathekga</p>
+                <p><strong>Account Number:</strong> 144 856 3613</p>
+                <p><strong>Account Type:</strong> Savings</p>
+                <p><strong>Branch Code:</strong> 470010</p>
+                <p>Please use your Invoice # as the payment reference.</p>
+            </div>
+
+            <div class="invoice-actions">
+                <button id="download-invoice-btn"><i class="fas fa-download"></i> Download Invoice</button>
+                <button id="send-invoice-btn"><i class="fas fa-paper-plane"></i> Send Invoice</button>
+            </div>
+        </div>
+    </div>
+
+    <section id="userPortal" class="container">
+        <div class="portal-header">
+            <h2 id="portal-welcome-message">Welcome, Client!</h2>
+            <p>Manage your services and account details here.</p>
+        </div>
+
+        <div class="portal-nav">
+            <button class="portal-nav-btn active" data-target="dashboard">Dashboard</button>
+            <button class="portal-nav-btn" data-target="myServices">My Services</button>
+            <button class="portal-nav-btn" data-target="invoices">Invoices</button>
+            <button class="portal-nav-btn" data-target="profile">Profile</button>
+            <button class="portal-nav-btn" data-target="affiliate">Affiliate Program</button>
+            <a href="http://porta.bizvoip.co.za:8444/" target="_blank" class="external-portal-btn"><i class="fas fa-phone"></i> VOIP Login</a>
+            <a href="http://porta.bizvoip.co.za:8442/" target="_blank" class="external-portal-btn"><i class="fas fa-users"></i> Partner Portal</a>
+            <button id="logout-btn">Logout</button>
+        </div>
+
+        <div class="portal-content" id="portal-dashboard">
+            <h3>Dashboard Overview</h3>
+            <div class="dashboard-summary">
+                <div class="summary-card">
+                    <h4>Active Services</h4>
+                    <p id="dashboard-active-services">0</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Unpaid Invoices</h4>
+                    <p id="dashboard-unpaid-invoices">0</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Affiliate Earnings</h4>
+                    <p id="dashboard-affiliate-earnings">R0.00</p>
+                </div>
+            </div>
+            <h4>Recent Activity</h4>
+            <table id="recent-activity-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Activity</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>2024-07-15</td><td>Service Activated</td><td>Web Hosting Pro</td></tr>
+                    <tr><td>2024-07-10</td><td>Invoice Generated</td><td>#INV-2024-001</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="portal-content" id="portal-myServices" style="display:none;">
+            <h3>My Services</h3>
+            <table id="services-table">
+                <thead>
+                    <tr>
+                        <th>Service Name</th>
+                        <th>Activation Date</th>
+                        <th>Next Due Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+
+        <div class="portal-content" id="portal-invoices" style="display:none;">
+            <h3>My Invoices</h3>
+            <table id="invoices-table">
+                <thead>
+                    <tr>
+                        <th>Invoice #</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+
+        <div class="portal-content" id="portal-profile" style="display:none;">
+            <h3>My Profile</h3>
+            <form id="profile-update-form">
+                <div class="form-group">
+                    <label for="profile-firstname">First Name:</label>
+                    <input type="text" id="profile-firstname" value="John">
+                </div>
+                <div class="form-group">
+                    <label for="profile-lastname">Last Name:</label>
+                    <input type="text" id="profile-lastname" value="Doe">
+                </div>
+                <div class="form-group">
+                    <label for="profile-email">Email:</label>
+                    <input type="email" id="profile-email" value="john.doe@example.com" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="profile-phone">Phone Number:</label>
+                    <input type="text" id="profile-phone" value="+27 79 123 4567">
+                </div>
+                <div class="form-group">
+                    <label for="profile-address1">Address Line 1:</label>
+                    <input type="text" id="profile-address1" value="123 Main St">
+                </div>
+                <div class="form-group">
+                    <label for="profile-city">City:</label>
+                    <input type="text" id="profile-city" value="Johannesburg">
+                </div>
+                <div class="form-group">
+                    <label for="profile-province">Province:</label>
+                    <input type="text" id="profile-province" value="Gauteng">
+                </div>
+                <div class="form-group">
+                    <label for="profile-postal-code">Postal Code:</label>
+                    <input type="text" id="profile-postal-code" value="1234">
+                </div>
+                <button type="submit">Update Profile</button>
+            </form>
+
+            <h4 style="margin-top: 40px;">Change Password</h4>
+            <form id="change-password-form">
+                <div class="form-group">
+                    <label for="current-password">Current Password:</label>
+                    <input type="password" id="current-password">
+                </div>
+                <div class="form-group">
+                    <label for="new-password">New Password:</label>
+                    <input type="password" id="new-password">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-new-password">Confirm New Password:</label>
+                    <input type="password" id="confirm-new-password">
+                </div>
+                <button type="submit">Change Password</button>
+            </form>
+        </div>
+
+        <div class="portal-content" id="portal-affiliate" style="display:none;">
+            <h3>Affiliate Program</h3>
+            <p style="color: #E0E0E0;">Refer new clients to M Networks and earn commissions!</p>
+            <div class="dashboard-summary">
+                <div class="summary-card">
+                    <h4>Your Referral Link</h4>
+                    <p style="font-size: 1.2em; overflow-wrap: break-word;"><a href="http://mnetworks.co.za?ref=YOURREFCODE" target="_blank" style="color: #FF6600;">http://mnetworks.co.za?ref=YOURREFCODE</a></p>
+                    <button class="btn-primary btn-sm" onclick="navigator.clipboard.writeText('http://mnetworks.co.za?ref=YOURREFCODE'); alert('Referral link copied!');">Copy Link</button>
+                </div>
+                <div class="summary-card">
+                    <h4>Pending Earnings</h4>
+                    <p>R<span id="affiliate-pending-earnings">0.00</span></p>
+                </div>
+                <div class="summary-card">
+                    <h4>Total Paid Out</h4>
+                    <p>R<span id="affiliate-total-paid">0.00</span></p>
+                </div>
+            </div>
+
+            <h4 style="margin-top: 40px;">Payout Request</h4>
+            <form id="payout-request-form">
+                <div class="form-group">
+                    <label for="payout-amount">Amount to Request (R):</label>
+                    <input type="number" id="payout-amount" min="100" step="any" placeholder="e.g., 500.00" required>
+                    <p style="color: #E0E0E0; font-size: 0.9em; margin-top: 5px;">Minimum payout is R100.00</p>
+                </div>
+                <button type="submit" id="request-payout-btn">Request Payout</button>
+            </form>
+
+            <h4 style="margin-top: 40px;">Banking Details for Payout</h4>
+            <form id="banking-details-form">
+                <div class="form-group">
+                    <label for="bank-name">Bank Name:</label>
+                    <input type="text" id="bank-name" value="Capitec">
+                </div>
+                <div class="form-group">
+                    <label for="account-name">Account Holder Name:</label>
+                    <input type="text" id="account-name" value="SM Mathekga">
+                </div>
+                <div class="form-group">
+                    <label for="account-number">Account Number:</label>
+                    <input type="text" id="account-number" value="1448563613">
+                </div>
+                <div class="form-group">
+                    <label for="account-type">Account Type:</label>
+                    <input type="text" id="account-type" value="Savings">
+                </div>
+                <div class="form-group">
+                    <label for="branch-code">Branch Code:</label>
+                    <input type="text" id="branch-code" value="470010">
+                </div>
+                <button type="submit">Update Banking Details</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="adminPortal" class="container">
+        <div class="admin-header">
+            <h2>Admin Dashboard</h2>
+            <p>Manage the M Networks platform.</p>
+        </div>
+
+        <div class="admin-nav">
+            <button class="admin-nav-btn active" data-target="admin-overview">Overview</button>
+            <button class="admin-nav-btn" data-target="admin-users">Users</button>
+            <button class="admin-nav-btn" data-target="admin-services">Services</button>
+            <button class="admin-nav-btn" data-target="admin-invoices">Invoices</button>
+            <button class="admin-nav-btn" data-target="admin-payouts">Payouts</button>
+            <button class="admin-nav-btn" data-target="admin-chat">Live Chat</button>
+            <button id="admin-logout-btn">Logout</button>
+        </div>
+
+        <div class="admin-content" id="admin-overview">
+            <h3>System Overview</h3>
+            <div class="dashboard-summary">
+                <div class="summary-card">
+                    <h4>Total Clients</h4>
+                    <p id="admin-total-clients">120</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Active Services</h4>
+                    <p id="admin-total-active-services">85</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Pending Payouts</h4>
+                    <p>R<span id="admin-pending-payouts">2,500.00</span></p>
+                </div>
+                <div class="summary-card">
+                    <h4>Revenue (Monthly)</h4>
+                    <p>R<span id="admin-monthly-revenue">15,000.00</span></p>
+                </div>
+            </div>
+
+            <h4 style="margin-top: 40px; text-align: center;">Revenue vs. Expenses</h4>
+            <div class="graph-container">
+                <canvas id="revenueExpenseChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <div class="admin-content" id="admin-users" style="display:none;">
+            <h3>Manage Users</h3>
+            <table id="admin-users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Registered Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+
+        <div class="admin-content" id="admin-services" style="display:none;">
+            <h3>Manage Services</h3>
+            <button class="btn-primary" style="margin-bottom: 20px;">Add New Service</button>
+            <table id="admin-services-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Service Name</th>
+                        <th>Price (Monthly)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Web Development</td><td>R1,500.00</td><td><button class="btn-primary btn-sm">Edit</button> <button class="btn-primary btn-sm" style="background-color: #dc3545;">Delete</button></td></tr>
+                    <tr><td>2</td><td>Network Solutions</td><td>R2,000.00</td><td><button class="btn-primary btn-sm">Edit</button> <button class="btn-primary btn-sm" style="background-color: #dc3545;">Delete</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="admin-content" id="admin-invoices" style="display:none;">
+            <h3>Manage Invoices</h3>
+            <table id="admin-invoices-table">
+                <thead>
+                    <tr>
+                        <th>Invoice #</th>
+                        <th>Client</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Due Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+
+        <div class="admin-content" id="admin-payouts" style="display:none;">
+            <h3>Manage Affiliate Payouts</h3>
+            <table id="admin-payouts-table">
+                <thead>
+                    <tr>
+                        <th>Payout ID</th>
+                        <th>Client</th>
+                        <th>Amount</th>
+                        <th>Bank Details</th>
+                        <th>Status</th>
+                        <th>Request Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>PAY-2024-001</td><td>Client A</td><td>R500.00</td><td>Capitec, S.M. Mathekga, 1448563613</td><td class="status-unpaid">Pending</td><td>2024-07-12</td><td><button class="btn-primary btn-sm" style="background-color: #28a745;">Mark Paid</button></td></tr>
+                    <tr><td>PAY-2024-002</td><td>Client B</td><td>R300.00</td><td>Capitec, S.M. Mathekga, 1448563613</td><td class="status-paid">Paid</td><td>2024-07-01</td><td><button class="btn-primary btn-sm">View</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="admin-content" id="admin-chat" style="display:none;">
+            <h3>Live Chat Support</h3>
+            <div id="admin-chat-area">
+                <div id="admin-chat-users">
+                    <h4>Active Chats</h4>
+                    <div class="chat-user-item active" data-user-id="client">Client (Demo)</div>
+                    <div class="chat-user-item" data-user-id="manager">Manager (Demo)</div>
+                </div>
+                <div id="admin-chat-window">
+                    <div id="admin-chat-current-user-header">Select a user to chat</div>
+                    <div id="admin-chat-display">
+                        <div class="chat-message system">Welcome to Admin Chat. Select a user to start.</div>
+                        </div>
+                    <div id="admin-chat-input-container">
+                        <input type="text" id="admin-chat-input" placeholder="Type your message...">
+                        <button id="admin-send-chat-btn" disabled>Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="live-chat-button" id="open-chat-btn">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <div id="chatModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3>Live Chat Support</h3>
+            <div id="chat-messages">
+                <div class="chat-message other">
+                    <p>Hi there! How can I help you today?</p>
+                    <span class="timestamp">11:00 AM</span>
+                </div>
+                <div class="chat-message self">
+                    <p>I need some assistance with my service setup.</p>
+                    <span class="timestamp">11:01 AM</span>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" placeholder="Type your message...">
+                <button id="send-chat-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Data for services (can be fetched from an API in a real application)
+        const services = {
+            1: {
+                id: '1',
+                title: "Web Development",
+                description: "Our web development services cover everything from bespoke website design to complex web application development. We use the latest technologies to ensure your online presence is modern, secure, and user-friendly.",
+                features: [
+                    "Custom website design",
+                    "Responsive and mobile-friendly",
+                    "E-commerce solutions",
+                    "CMS integration (WordPress, Joomla, etc.)",
+                    "Search Engine Optimization (SEO) basics",
+                    "Ongoing maintenance and support"
+                ],
+                price: 1500.00 // Monthly price
+            },
+            2: {
+                id: '2',
+                title: "Network Solutions",
+                description: "We provide end-to-end network solutions, including design, implementation, and management of robust and secure network infrastructures. Whether you need a local area network (LAN) or a wide area network (WAN), we ensure optimal performance and reliability.",
+                features: [
+                    "Network design and architecture",
+                    "LAN/WAN setup and configuration",
+                    "Wireless network solutions",
+                    "Network security implementation",
+                    "Network performance monitoring",
+                    "Troubleshooting and support"
+                ],
+                price: 2000.00
+            },
+            3: {
+                id: '3',
+                title: "Cybersecurity",
+                description: "Protect your business from evolving cyber threats with our comprehensive cybersecurity services. We offer advanced threat detection, prevention, and response strategies to safeguard your valuable data and systems.",
+                features: [
+                    "Vulnerability assessments and penetration testing",
+                    "Firewall and intrusion detection systems",
+                    "Endpoint protection and anti-malware",
+                    "Security information and event management (SIEM)",
+                    "Employee security awareness training",
+                    "Incident response planning"
+                ],
+                price: 1800.00
+            },
+            4: {
+                id: '4',
+                title: "IT Consulting",
+                description: "Our IT consulting services provide strategic guidance to help your business leverage technology for optimal growth and efficiency. We work closely with you to understand your goals and develop tailored IT strategies.",
+                features: [
+                    "IT strategy and planning",
+                    "Digital transformation roadmap",
+                    "Technology infrastructure assessment",
+                    "Cloud adoption strategies",
+                    "Software and hardware recommendations",
+                    "Project management"
+                ],
+                price: 1200.00
+            },
+            5: {
+                id: '5',
+                title: "Managed IT Services",
+                description: "Offload your IT burden with our managed IT services. We proactively monitor, maintain, and support your entire IT environment, ensuring smooth operations and minimizing downtime.",
+                features: [
+                    "24/7 proactive monitoring",
+                    "Remote and on-site support",
+                    "Patch management and updates",
+                    "Backup and disaster recovery",
+                    "Help desk support",
+                    "Vendor management"
+                ],
+                price: 2500.00
+            },
+            6: {
+                id: '6',
+                title: "Data Analytics",
+                description: "Unlock the power of your data with our data analytics services. We transform raw data into actionable insights, helping you make informed decisions and gain a competitive edge.",
+                features: [
+                    "Data collection and integration",
+                    "Data visualization and reporting",
+                    "Predictive analytics",
+                    "Business intelligence dashboards",
+                    "Customized data models",
+                    "Data strategy development"
+                ],
+                price: 2200.00
+            }
+        };
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || []; // Load cart from localStorage
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')); // Load current user from localStorage
+        let isAdmin = currentUser ? currentUser.role === 'admin' : false;
+
+        // Demo admin credentials
+        const ADMIN_USERNAME = 'admin';
+        const ADMIN_PASSWORD = 'adminpassword'; // In a real app, this would be hashed!
+
+        // Simulated data storage (using localStorage for persistence across browser sessions)
+        let users = JSON.parse(localStorage.getItem('users')) || {
+            'client': {
+                id: 'client',
+                username: 'client',
+                passwordHash: 'clientpass', // Stored as plain text for demo, but should be hashed in real app
+                role: 'client',
+                firstName: 'Demo',
+                lastName: 'Client',
+                email: 'client@example.com',
+                phone: '+27 79 123 4567',
+                address1: '123 Test St',
+                city: 'Pretoria',
+                province: 'Gauteng',
+                postalCode: '0001',
+                services: [ // Sample services for demo client
+                    { name: 'Premium Web Hosting', activationDate: '2024-07-01', nextDueDate: '2025-07-01', status: 'Active' },
+                    { name: 'Cybersecurity Package', activationDate: '2024-06-15', nextDueDate: '2024-08-15', status: 'Inactive' }
+                ],
+                invoices: [ // Sample invoices for demo client
+                    { invoiceNum: 'INV-2024-001', date: '2024-07-10', amount: 1500.00, dueDate: '2024-07-24', status: 'Unpaid', items: [{name: 'Web Development', price: 1500, quantity: 1}] },
+                    { invoiceNum: 'INV-2024-002', date: '2024-06-01', amount: 800.00, dueDate: '2024-06-15', status: 'Paid', items: [{name: 'IT Consulting', price: 800, quantity: 1}] }
+                ],
+                affiliateEarnings: 250.00,
+                totalPaidOut: 0.00,
+                bankingDetails: { bankName: 'Capitec', accountName: 'SM Mathekga', accountNumber: '1448563613', accountType: 'Savings', branchCode: '470010' }
+            },
+            'manager': { // Example for manager user, though not fully implemented
+                id: 'manager',
+                username: 'manager',
+                passwordHash: 'managerpass',
+                role: 'manager',
+                firstName: 'Demo',
+                lastName: 'Manager',
+                email: 'manager@example.com',
+                phone: '+27 82 111 2222',
+            }
+        };
+        localStorage.setItem('users', JSON.stringify(users)); // Ensure demo users are in localStorage
+
+        // Simulated chat messages storage (per user for client-side chat)
+        let chatMessages = JSON.parse(localStorage.getItem('chatMessages')) || {
+            'client': [
+                { sender: 'other', message: 'Hi there! How can I help you today?', timestamp: '11:00 AM' },
+                { sender: 'self', message: 'I need some assistance with my service setup.', timestamp: '11:01 AM' },
+                { sender: 'system', message: 'An agent will respond shortly.', timestamp: '11:01 AM' }
+            ],
+            'manager': [
+                { sender: 'system', message: 'Chat with manager started.', timestamp: '10:00 AM' }
+            ]
+        };
+        localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+
+        // Simulated admin data
+        let adminInvoices = JSON.parse(localStorage.getItem('adminInvoices')) || [
+             { invoiceNum: 'INV-2024-001', clientUsername: 'client', amount: 1500.00, date: '2024-07-10', dueDate: '2024-07-24', status: 'Unpaid' },
+             { invoiceNum: 'INV-2024-002', clientUsername: 'client', amount: 800.00, date: '2024-06-01', dueDate: '2024-06-15', status: 'Paid' }
+        ];
+        localStorage.setItem('adminInvoices', JSON.stringify(adminInvoices));
+
+        // Get elements
+        const loginLink = document.getElementById('login-link');
+        const loginModal = document.getElementById('loginModal');
+        const registrationModal = document.getElementById('registrationModal');
+        const serviceDetailModal = document.getElementById('serviceDetailModal');
+        const cartModal = document.getElementById('cartModal');
+        const invoiceModal = document.getElementById('invoiceModal');
+        const closeButtons = document.querySelectorAll('.close-button');
+        const contactForm = document.getElementById('contactForm');
+        const loginForm = document.getElementById('loginForm');
+        const loginErrorMessage = document.getElementById('login-error-message');
+        const registerLink = document.getElementById('register-link');
+        const clientRegistrationForm = document.getElementById('clientRegistrationForm');
+        const cartIcon = document.getElementById('cart-icon');
+        const cartCount = document.getElementById('cart-count');
+        const cartItemsTableBody = document.querySelector('#cart-items tbody');
+        const cartTotalDisplay = document.getElementById('cart-total');
+        const clearCartBtn = document.getElementById('clear-cart-btn');
+        const proceedToCheckoutBtn = document.getElementById('proceed-to-checkout-btn');
+        const userPortal = document.getElementById('userPortal');
+        const adminPortal = document.getElementById('adminPortal');
+        const header = document.querySelector('.header');
+        const mainContentSections = document.querySelectorAll('main section');
+        const logoutBtn = document.getElementById('logout-btn');
+        const adminLogoutBtn = document.getElementById('admin-logout-btn');
+
+        // Service detail modal elements
+        const serviceTitle = document.getElementById('service-title');
+        const serviceDescription = document.getElementById('service-description');
+        const serviceFeatures = document.getElementById('service-features');
+        const servicePrice = document.getElementById('service-price');
+        const addServiceToCartBtn = document.querySelector('#serviceDetailModal .add-to-cart-btn');
+
+        // Multi-step registration form elements
+        const regSteps = document.querySelectorAll('.form-step');
+        let currentStep = 0;
+
+        // Live Chat elements (Client Side)
+        const openChatBtn = document.getElementById('open-chat-btn');
+        const chatModal = document.getElementById('chatModal');
+        const chatMessagesDisplay = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const sendChatBtn = document.getElementById('send-chat-btn');
+
+        // Admin Portal Chat Elements
+        const adminChatUsersList = document.getElementById('admin-chat-users');
+        const adminChatDisplay = document.getElementById('admin-chat-display');
+        const adminChatInput = document.getElementById('admin-chat-input');
+        const adminSendChatBtn = document.getElementById('admin-send-chat-btn');
+        const adminChatCurrentUserHeader = document.getElementById('admin-chat-current-user-header');
+        let currentAdminChatUser = null; // Stores the username of the user admin is currently chatting with
+
+        // Admin Portal Charts
+        let revenueExpenseChart;
+
+        // --- Utility Functions ---
+        function generateUniqueId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        // --- Modal Functions ---
+        function openModal(modal) {
+            modal.style.display = 'flex';
+        }
+
+        function closeModal(modal) {
+            modal.style.display = 'none';
+        }
+
+        closeButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const modal = event.target.closest('.modal');
+                if (modal) {
+                    closeModal(modal);
+                }
+            });
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target.classList.contains('modal')) { // Only close if clicking on the modal background
+                closeModal(event.target);
+            }
+        });
+
+        // --- Header Navigation Active State ---
+        const navLinks = document.querySelectorAll('.nav-main ul li a');
+
+        function setActiveNavLink() {
+            const sections = document.querySelectorAll('section');
+            let currentActive = 'home';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - header.offsetHeight;
+                const sectionBottom = sectionTop + section.offsetHeight;
+                if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
+                    currentActive = section.id;
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') && link.getAttribute('href').includes(currentActive)) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', setActiveNavLink);
+        document.addEventListener('DOMContentLoaded', setActiveNavLink); // Set active on load
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                // If it's a regular navigation link, scroll
+                if (!this.classList.contains('external-portal-btn')) {
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // --- Login / Registration ---
+        loginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModal(registrationModal); // Close registration if open
+            openModal(loginModal);
+            loginErrorMessage.style.display = 'none'; // Hide error on open
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
+        });
+
+        registerLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModal(loginModal); // Close login if open
+            openModal(registrationModal);
+            resetRegistrationForm();
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            const user = users[username];
+
+            if (user && user.passwordHash === password) { // Simple password check for demo
+                currentUser = {
+                    id: user.id,
+                    username: user.username,
+                    role: user.role,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    phone: user.phone,
+                    address1: user.address1,
+                    city: user.city,
+                    province: user.province,
+                    postalCode: user.postalCode
+                };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser)); // Save current user session
+                isAdmin = user.role === 'admin';
+                closeModal(loginModal);
+
+                if (isAdmin) {
+                    showAdminPortal();
+                } else {
+                    showUserPortal(username);
+                }
+                hideMainSections();
+                header.style.display = 'none'; // Hide header on portal
+                openChatBtn.style.display = isAdmin ? 'none' : 'flex'; // Hide chat for admin, show for client
+            } else {
+                loginErrorMessage.style.display = 'block';
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            currentUser = null;
+            isAdmin = false;
+            localStorage.removeItem('currentUser'); // Clear current user session
+            userPortal.style.display = 'none';
+            adminPortal.style.display = 'none';
+            showMainSections();
+            header.style.display = 'flex'; // Show header again
+            openChatBtn.style.display = 'flex'; // Show chat button again for public
+            window.location.hash = '#home';
+            setActiveNavLink();
+        });
+
+        adminLogoutBtn.addEventListener('click', () => {
+            currentUser = null;
+            isAdmin = false;
+            localStorage.removeItem('currentUser'); // Clear current user session
+            userPortal.style.display = 'none';
+            adminPortal.style.display = 'none';
+            showMainSections();
+            header.style.display = 'flex'; // Show header again
+            openChatBtn.style.display = 'flex'; // Show chat button again for public
+            window.location.hash = '#home';
+            setActiveNavLink();
+        });
+
+        function hideMainSections() {
+            mainContentSections.forEach(section => {
+                section.style.display = 'none';
+            });
+            document.querySelector('.live-chat-button').style.display = 'none';
+            document.querySelector('.cart-icon-container').style.display = 'none';
+        }
+
+        function showMainSections() {
+            mainContentSections.forEach(section => {
+                section.style.display = 'block';
+            });
+            document.querySelector('.live-chat-button').style.display = 'flex'; // Show chat button again
+            document.querySelector('.cart-icon-container').style.display = 'block';
+        }
+
+        // Initialize display based on localStorage on load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartDisplay(); // Load cart count on page load
+
+            if (currentUser) {
+                if (currentUser.role === 'admin') {
+                    showAdminPortal();
+                } else {
+                    showUserPortal(currentUser.username);
+                }
+                hideMainSections();
+                header.style.display = 'none';
+                openChatBtn.style.display = isAdmin ? 'none' : 'flex';
+            } else {
+                showMainSections();
+                header.style.display = 'flex';
+                openChatBtn.style.display = 'flex';
+            }
+        });
+
+
+        // --- Multi-step Registration Form ---
+        function showStep(stepIndex) {
+            regSteps.forEach((step, index) => {
+                step.classList.toggle('active', index === stepIndex);
+            });
+            currentStep = stepIndex;
+        }
+
+        function resetRegistrationForm() {
+            clientRegistrationForm.reset();
+            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+            showStep(0);
+        }
+
+        document.getElementById('next-step-1').addEventListener('click', () => {
+            if (validateStep1()) {
+                showStep(1);
+            }
+        });
+        document.getElementById('prev-step-2').addEventListener('click', () => showStep(0));
+        document.getElementById('next-step-2').addEventListener('click', () => {
+            if (validateStep2()) {
+                showStep(2);
+            }
+        });
+        document.getElementById('prev-step-3').addEventListener('click', () => showStep(1));
+
+        clientRegistrationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (validateStep1() && validateStep2() && validateStep3()) {
+                const username = document.getElementById('reg-username').value;
+                const password = document.getElementById('reg-password').value; // In a real app, hash this!
+
+                if (users[username]) {
+                    document.getElementById('error-username-reg').textContent = 'Username already taken.';
+                    return;
+                }
+
+                // Simulate user registration
+                const newUser = {
+                    id: generateUniqueId(),
+                    username: username,
+                    passwordHash: password, // Stored as plain text for demo, should be hashed in real app
+                    role: 'client',
+                    firstName: document.getElementById('reg-firstname').value,
+                    lastName: document.getElementById('reg-lastname').value,
+                    email: document.getElementById('reg-email').value,
+                    phone: document.getElementById('reg-phone').value,
+                    address1: document.getElementById('reg-address-line1').value,
+                    address2: document.getElementById('reg-address-line2').value,
+                    city: document.getElementById('reg-city').value,
+                    province: document.getElementById('reg-province').value,
+                    postalCode: document.getElementById('reg-postal-code').value,
+                    services: [],
+                    invoices: [],
+                    affiliateEarnings: 0.00,
+                    totalPaidOut: 0.00,
+                    bankingDetails: {}
+                };
+
+                users[username] = newUser;
+                localStorage.setItem('users', JSON.stringify(users)); // Save updated users to localStorage
+
+                alert('Registration successful! You can now log in.');
+                closeModal(registrationModal);
+                openModal(loginModal); // Direct to login after registration
+            }
+        });
+
+        function validateStep1() {
+            let isValid = true;
+            const firstName = document.getElementById('reg-firstname');
+            const lastName = document.getElementById('reg-lastname');
+            const email = document.getElementById('reg-email');
+            const phone = document.getElementById('reg-phone');
+
+            if (firstName.value.trim() === '') {
+                document.getElementById('error-firstname').textContent = 'First Name is required.';
+                isValid = false;
+            } else {
+                document.getElementById('error-firstname').textContent = '';
+            }
+
+            if (lastName.value.trim() === '') {
+                document.getElementById('error-lastname').textContent = 'Last Name is required.';
+                isValid = false;
+            } else {
+                document.getElementById('error-lastname').textContent = '';
+            }
+
+            if (email.value.trim() === '' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+                document.getElementById('error-email').textContent = 'Valid Email is required.';
+                isValid = false;
+            } else {
+                document.getElementById('error-email').textContent = '';
+            }
+
+            if (phone.value.trim() === '' || !/^\+?\d{10,15}$/.test(phone.value)) { // Basic phone validation
+                document.getElementById('error-phone').textContent = 'Valid Phone Number is required (e.g., +27123456789).';
+                isValid = false;
+            } else {
+                document.getElementById('error-phone').textContent = '';
+            }
+
+            return isValid;
+        }
+
+        function validateStep2() {
+            let isValid = true;
+            const username = document.getElementById('reg-username');
+            const password = document.getElementById('reg-password');
+            const confirmPassword = document.getElementById('reg-confirm-password');
+
+            if (username.value.trim() === '' || username.value.length < 4) {
+                document.getElementById('error-username-reg').textContent = 'Username must be at least 4 characters.';
+                isValid = false;
+            } else if (users[username.value.trim()]) {
+                 document.getElementById('error-username-reg').textContent = 'Username already taken.';
+                isValid = false;
+            }
+            else {
+                document.getElementById('error-username-reg').textContent = '';
+            }
+
+            if (password.value.trim() === '' || password.value.length < 6) {
+                document.getElementById('error-password-reg').textContent = 'Password must be at least 6 characters.';
+                isValid = false;
+            } else {
+                document.getElementById('error-password-reg').textContent = '';
+            }
+
+            if (password.value !== confirmPassword.value) {
+                document.getElementById('error-confirm-password').textContent = 'Passwords do not match.';
+                isValid = false;
+            } else {
+                document.getElementById('error-confirm-password').textContent = '';
+            }
+
+            return isValid;
+        }
+
+        function validateStep3() {
+            let isValid = true;
+            const address1 = document.getElementById('reg-address-line1');
+            const city = document.getElementById('reg-city');
+            const province = document.getElementById('reg-province');
+            const postalCode = document.getElementById('reg-postal-code');
+
+            if (address1.value.trim() === '') {
+                document.getElementById('error-address1').textContent = 'Address Line 1 is required.';
+                isValid = false;
+            } else {
+                document.getElementById('error-address1').textContent = '';
+            }
+
+            if (city.value.trim() === '') {
+                document.getElementById('error-city').textContent = 'City is required.';
+                isValid = false;
+            } else {
+                document.getElementById('error-city').textContent = '';
+            }
+
+            if (province.value.trim() === '') {
+                document.getElementById('error-province').textContent = 'Province is required.';
+                isValid = false;
+            } else {
+                document.getElementById('error-province').textContent = '';
+            }
+
+            if (postalCode.value.trim() === '' || !/^\d{4}$/.test(postalCode.value)) { // Basic SA postal code validation
+                document.getElementById('error-postalcode').textContent = 'Valid Postal Code (4 digits) is required.';
+                isValid = false;
+            } else {
+                document.getElementById('error-postalcode').textContent = '';
+            }
+
+            return isValid;
+        }
+
+        // --- Contact Form Submission ---
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon. (This is a demo submission.)');
+            contactForm.reset();
+        });
+
+        // --- Services Section (View Details) ---
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                const serviceId = card.dataset.serviceId;
+                const service = services[serviceId];
+
+                if (service) {
+                    serviceTitle.textContent = service.title;
+                    serviceDescription.textContent = service.description;
+                    servicePrice.textContent = `Price: R${service.price.toFixed(2)}/month`;
+                    addServiceToCartBtn.dataset.serviceId = serviceId; // Set service ID for add to cart button
+
+                    // Clear previous features
+                    serviceFeatures.innerHTML = '';
+                    service.features.forEach(feature => {
+                        const li = document.createElement('li');
+                        li.textContent = feature;
+                        serviceFeatures.appendChild(li);
+                    });
+
+                    openModal(serviceDetailModal);
+                }
+            });
+        });
+
+        // --- Shopping Cart Functionality ---
+        addServiceToCartBtn.addEventListener('click', (e) => {
+            const serviceId = e.target.dataset.serviceId;
+            const service = services[serviceId];
+
+            if (service) {
+                const existingItem = cart.find(item => item.id === serviceId);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({
+                        id: serviceId,
+                        name: service.title,
+                        price: service.price,
+                        quantity: 1
+                    });
+                }
+                localStorage.setItem('cart', JSON.stringify(cart)); // Save cart to localStorage
+                updateCartDisplay();
+                closeModal(serviceDetailModal);
+            }
+        });
+
+        cartIcon.addEventListener('click', () => {
+            updateCartDisplay();
+            openModal(cartModal);
+        });
+
+        function updateCartDisplay() {
+            cartItemsTableBody.innerHTML = ''; // Clear existing items
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartItemsTableBody.innerHTML = '<tr><td colspan="3">Your cart is empty.</td></tr>';
+                cartCount.style.display = 'none';
+            } else {
+                cart.forEach(item => {
+                    const row = cartItemsTableBody.insertRow();
+                    row.innerHTML = `
+                        <td>${item.name}</td>
+                        <td>R${item.price.toFixed(2)} x ${item.quantity}</td>
+                        <td>
+                            <button class="btn-primary btn-sm remove-from-cart-btn" data-service-id="${item.id}" style="background-color: #dc3545;">Remove</button>
+                        </td>
+                    `;
+                    total += item.price * item.quantity;
+                });
+                cartCount.style.display = 'block';
+                cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            }
+            cartTotalDisplay.textContent = `Total: R${total.toFixed(2)}`;
+
+            // Add event listeners for remove buttons
+            document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const serviceIdToRemove = e.target.dataset.serviceId;
+                    removeItemFromCart(serviceIdToRemove);
+                });
+            });
+        }
+
+        function removeItemFromCart(serviceId) {
+            const itemIndex = cart.findIndex(item => item.id === serviceId);
+            if (itemIndex > -1) {
+                if (cart[itemIndex].quantity > 1) {
+                    cart[itemIndex].quantity--;
+                } else {
+                    cart.splice(itemIndex, 1);
+                }
+            }
+            localStorage.setItem('cart', JSON.stringify(cart)); // Update localStorage
+            updateCartDisplay();
+        }
+
+        clearCartBtn.addEventListener('click', () => {
+            cart = [];
+            localStorage.setItem('cart', JSON.stringify(cart)); // Clear cart in localStorage
+            updateCartDisplay();
+        });
+
+        proceedToCheckoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('Your cart is empty. Please add services before checking out.');
+                return;
+            }
+            closeModal(cartModal);
+
+            if (!currentUser) {
+                // If not logged in, prompt for login/registration
+                openModal(loginModal);
+                loginErrorMessage.textContent = 'Please login or register to proceed with your order.';
+                loginErrorMessage.style.display = 'block';
+            } else {
+                // If logged in, proceed to generate invoice
+                generateInvoice();
+            }
+        });
+
+        // --- Invoice Generation ---
+        function generateInvoice() {
+            if (!currentUser) {
+                console.error("No current user to generate invoice for.");
+                return;
+            }
+
+            const invoiceDate = new Date().toLocaleDateString('en-ZA'); // South African date format
+            const invoiceNumber = `INV-${Math.floor(Math.random() * 1000000)}`; // Simple random invoice number
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 14); // 14 days from now
+            const invoiceDueDate = dueDate.toLocaleDateString('en-ZA');
+
+            document.getElementById('invoice-date').textContent = invoiceDate;
+            document.getElementById('invoice-number').textContent = invoiceNumber;
+
+            const clientUser = users[currentUser.username];
+            document.getElementById('invoice-client-name').textContent = `${clientUser.firstName} ${clientUser.lastName}`;
+            document.getElementById('invoice-client-address').textContent = `${clientUser.address1}, ${clientUser.city}, ${clientUser.province}, ${clientUser.postalCode}`;
+            document.getElementById('invoice-client-email').textContent = clientUser.email;
+
+
+            const invoiceTableBody = document.getElementById('invoice-items-table-body');
+            invoiceTableBody.innerHTML = '';
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                const row = invoiceTableBody.insertRow();
+                const totalItemPrice = item.price * item.quantity;
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>R${item.price.toFixed(2)}</td>
+                    <td>R${totalItemPrice.toFixed(2)}</td>
+                `;
+                subtotal += totalItemPrice;
+            });
+
+            const taxRate = 0.15; // 15% VAT
+            const taxAmount = subtotal * taxRate;
+            const grandTotal = subtotal + taxAmount;
+
+            document.getElementById('invoice-subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('invoice-tax').textContent = taxAmount.toFixed(2);
+            document.getElementById('invoice-grand-total').textContent = grandTotal.toFixed(2);
+
+            // Store invoice and service in user's data (simulated backend)
+            const newInvoice = {
+                invoiceNum: invoiceNumber,
+                date: invoiceDate,
+                amount: grandTotal,
+                dueDate: invoiceDueDate,
+                status: 'Unpaid',
+                items: cart // Save cart items with the invoice
+            };
+
+            const newService = {
+                name: cart.map(item => item.name).join(', '), // Combine service names
+                activationDate: invoiceDate,
+                nextDueDate: invoiceDueDate, // Use invoice due date as next due for simplicity
+                status: 'Active'
+            };
+
+            if (!users[currentUser.username].invoices) {
+                users[currentUser.username].invoices = [];
+            }
+            if (!users[currentUser.username].services) {
+                users[currentUser.username].services = [];
+            }
+            users[currentUser.username].invoices.push(newInvoice);
+            users[currentUser.username].services.push(newService);
+
+            // Also add to admin's list of all invoices
+            const adminInvoiceEntry = {
+                invoiceNum: newInvoice.invoiceNum,
+                clientUsername: currentUser.username,
+                amount: newInvoice.amount,
+                date: newInvoice.date,
+                dueDate: newInvoice.dueDate,
+                status: newInvoice.status
+            };
+            adminInvoices.push(adminInvoiceEntry);
+
+            localStorage.setItem('users', JSON.stringify(users)); // Update users data in localStorage
+            localStorage.setItem('adminInvoices', JSON.stringify(adminInvoices)); // Update admin invoices in localStorage
+
+            // Clear the cart after generating invoice
+            cart = [];
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartDisplay(); // Update cart icon to 0
+
+            openModal(invoiceModal);
+            // Optionally, redirect to client portal invoices section
+            setTimeout(() => {
+                closeModal(invoiceModal);
+                showUserPortal(currentUser.username);
+                document.querySelector('.portal-nav-btn[data-target="invoices"]').click();
+            }, 3000); // Close invoice after 3 seconds and redirect
+        }
+
+        document.getElementById('download-invoice-btn').addEventListener('click', () => {
+            alert('Invoice download simulated! (In a real app, this would generate a PDF)');
+            // You'd use a library like jsPDF here
+        });
+
+        document.getElementById('send-invoice-btn').addEventListener('click', () => {
+            alert('Invoice sent via email simulated! (In a real app, this would send an email)');
+        });
+
+
+        // --- User/Client Portal Logic ---
+        function showUserPortal(username) {
+            userPortal.style.display = 'block';
+            document.getElementById('portal-welcome-message').textContent = `Welcome, ${username}!`;
+            document.querySelectorAll('#userPortal .portal-nav-btn')[0].click(); // Activate Dashboard by default
+            updateUserPortalData(username);
+        }
+
+        function updateUserPortalData(username) {
+            const user = users[username];
+            if (!user) return;
+
+            // Dashboard Summary
+            const activeServicesCount = user.services ? user.services.filter(s => s.status === 'Active').length : 0;
+            const unpaidInvoicesCount = user.invoices ? user.invoices.filter(i => i.status === 'Unpaid').length : 0;
+            document.getElementById('dashboard-active-services').textContent = activeServicesCount;
+            document.getElementById('dashboard-unpaid-invoices').textContent = unpaidInvoicesCount;
+            document.getElementById('dashboard-affiliate-earnings').textContent = user.affiliateEarnings ? user.affiliateEarnings.toFixed(2) : '0.00';
+
+            // Recent Activity (simplified)
+            const recentActivityTableBody = document.querySelector('#recent-activity-table tbody');
+            recentActivityTableBody.innerHTML = '';
+            // For demo, just show last 2 invoices/services
+            const recentInvoices = (user.invoices || []).slice(-2).reverse();
+            const recentServices = (user.services || []).slice(-2).reverse();
+
+            recentInvoices.forEach(inv => {
+                const row = recentActivityTableBody.insertRow();
+                row.innerHTML = `<td>${inv.date}</td><td>Invoice Generated</td><td>#${inv.invoiceNum} (R${inv.amount.toFixed(2)})</td>`;
+            });
+            recentServices.forEach(srv => {
+                const row = recentActivityTableBody.insertRow();
+                row.innerHTML = `<td>${srv.activationDate}</td><td>Service Activated</td><td>${srv.name}</td>`;
+            });
+            if (recentInvoices.length === 0 && recentServices.length === 0) {
+                 recentActivityTableBody.innerHTML = '<tr><td colspan="3">No recent activity.</td></tr>';
+            }
+
+
+            // My Services
+            const servicesTableBody = document.getElementById('services-table').querySelector('tbody');
+            servicesTableBody.innerHTML = '';
+            if (user.services && user.services.length > 0) {
+                user.services.forEach(service => {
+                    const row = servicesTableBody.insertRow();
+                    row.innerHTML = `
+                        <td>${service.name}</td>
+                        <td>${service.activationDate}</td>
+                        <td>${service.nextDueDate}</td>
+                        <td class="status-${service.status.toLowerCase()}">${service.status}</td>
+                        <td><button class="btn-primary btn-sm">Manage</button></td>
+                    `;
+                });
+            } else {
+                servicesTableBody.innerHTML = '<tr><td colspan="5">No services found.</td></tr>';
+            }
+
+
+            // My Invoices
+            const invoicesTableBody = document.getElementById('invoices-table').querySelector('tbody');
+            invoicesTableBody.innerHTML = '';
+            if (user.invoices && user.invoices.length > 0) {
+                user.invoices.forEach(invoice => {
+                    const row = invoicesTableBody.insertRow();
+                    row.innerHTML = `
+                        <td>${invoice.invoiceNum}</td>
+                        <td>${invoice.date}</td>
+                        <td>R${invoice.amount.toFixed(2)}</td>
+                        <td>${invoice.dueDate}</td>
+                        <td class="status-${invoice.status.toLowerCase()}">${invoice.status}</td>
+                        <td><button class="btn-primary btn-sm">View/Pay</button></td>
+                    `;
+                });
+            } else {
+                invoicesTableBody.innerHTML = '<tr><td colspan="6">No invoices found.</td></tr>';
+            }
+
+            // Profile
+            document.getElementById('profile-firstname').value = user.firstName || '';
+            document.getElementById('profile-lastname').value = user.lastName || '';
+            document.getElementById('profile-email').value = user.email || '';
+            document.getElementById('profile-phone').value = user.phone || '';
+            document.getElementById('profile-address1').value = user.address1 || '';
+            document.getElementById('profile-city').value = user.city || '';
+            document.getElementById('profile-province').value = user.province || '';
+            document.getElementById('profile-postal-code').value = user.postalCode || '';
+
+            // Affiliate
+            document.getElementById('affiliate-pending-earnings').textContent = user.affiliateEarnings ? user.affiliateEarnings.toFixed(2) : '0.00';
+            document.getElementById('affiliate-total-paid').textContent = user.totalPaidOut ? user.totalPaidOut.toFixed(2) : '0.00';
+            document.getElementById('bank-name').value = user.bankingDetails.bankName || '';
+            document.getElementById('account-name').value = user.bankingDetails.accountName || '';
+            document.getElementById('account-number').value = user.bankingDetails.accountNumber || '';
+            document.getElementById('account-type').value = user.bankingDetails.accountType || '';
+            document.getElementById('branch-code').value = user.bankingDetails.branchCode || '';
+        }
+
+        document.querySelectorAll('#userPortal .portal-nav-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const targetId = e.target.dataset.target;
+
+                // Deactivate all content sections
+                document.querySelectorAll('#userPortal .portal-content').forEach(content => {
+                    content.style.display = 'none';
+                });
+
+                // Activate the selected content section
+                document.getElementById(`portal-${targetId}`).style.display = 'block';
+
+                // Update active button state
+                document.querySelectorAll('#userPortal .portal-nav-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+
+                // Refresh data for the opened tab
+                if (currentUser) {
+                    updateUserPortalData(currentUser.username);
+                }
+            });
+        });
+
+        // Affiliate program payout request
+        document.getElementById('payout-request-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const payoutAmount = parseFloat(document.getElementById('payout-amount').value);
+            const user = users[currentUser.username];
+
+            if (payoutAmount < 100) {
+                alert('Minimum payout amount is R100.00.');
+                return;
+            }
+            if (payoutAmount > user.affiliateEarnings) {
+                alert('You cannot request more than your pending earnings.');
+                return;
+            }
+
+            // Simulate payout request
+            user.affiliateEarnings -= payoutAmount;
+            user.totalPaidOut += payoutAmount;
+            localStorage.setItem('users', JSON.stringify(users));
+            updateUserPortalData(currentUser.username);
+            alert(`Payout request for R${payoutAmount.toFixed(2)} submitted!`);
+            document.getElementById('payout-amount').value = '';
+        });
+
+        // Banking details update
+        document.getElementById('banking-details-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = users[currentUser.username];
+            user.bankingDetails = {
+                bankName: document.getElementById('bank-name').value,
+                accountName: document.getElementById('account-name').value,
+                accountNumber: document.getElementById('account-number').value,
+                accountType: document.getElementById('account-type').value,
+                branchCode: document.getElementById('branch-code').value
+            };
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('Banking details updated successfully! (This is a demo.)');
+        });
+
+        // Profile update
+        document.getElementById('profile-update-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = users[currentUser.username];
+            user.firstName = document.getElementById('profile-firstname').value;
+            user.lastName = document.getElementById('profile-lastname').value;
+            user.phone = document.getElementById('profile-phone').value;
+            user.address1 = document.getElementById('profile-address1').value;
+            user.city = document.getElementById('profile-city').value;
+            user.province = document.getElementById('profile-province').value;
+            user.postalCode = document.getElementById('profile-postal-code').value;
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('Profile updated successfully! (This is a demo.)');
+            document.getElementById('portal-welcome-message').textContent = `Welcome, ${user.firstName}!`; // Update welcome message
+        });
+
+        // Change password
+        document.getElementById('change-password-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const currentPass = document.getElementById('current-password').value;
+            const newPass = document.getElementById('new-password').value;
+            const confirmNewPass = document.getElementById('confirm-new-password').value;
+            const user = users[currentUser.username];
+
+            if (currentPass === '' || newPass === '' || confirmNewPass === '') {
+                alert('All password fields are required.');
+                return;
+            }
+            if (currentPass !== user.passwordHash) { // Demo check
+                alert('Current password is incorrect.');
+                return;
+            }
+            if (newPass.length < 6) {
+                alert('New password must be at least 6 characters.');
+                return;
+            }
+            if (newPass !== confirmNewPass) {
+                alert('New password and confirm password do not match.');
+                return;
+            }
+
+            user.passwordHash = newPass; // Update hashed password
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('Password changed successfully! (This is a demo.)');
+            document.getElementById('change-password-form').reset();
+        });
+
+
+        // --- Admin Portal Logic ---
+        function showAdminPortal() {
+            adminPortal.style.display = 'block';
+            document.querySelectorAll('#adminPortal .admin-nav-btn')[0].click(); // Activate Overview by default
+            initAdminCharts();
+            updateAdminDashboardData();
+            updateAdminUsersTable();
+            updateAdminInvoicesTable();
+            updateAdminChatUsers(); // Initialize admin chat users list
+        }
+
+        function updateAdminDashboardData() {
+            const totalClients = Object.keys(users).length;
+            const activeServices = Object.values(users).reduce((count, user) => {
+                if (user.services) {
+                    return count + user.services.filter(s => s.status === 'Active').length;
+                }
+                return count;
+            }, 0);
+            const pendingPayouts = Object.values(users).reduce((sum, user) => {
+                if (user.affiliateEarnings) {
+                    return sum + user.affiliateEarnings;
+                }
+                return sum;
+            }, 0);
+            const monthlyRevenue = adminInvoices.reduce((sum, invoice) => {
+                const invoiceDate = new Date(invoice.date.split('/').reverse().join('-')); // Convert DD/MM/YYYY to YYYY-MM-DD
+                const currentMonth = new Date().getMonth();
+                const currentYear = new Date().getFullYear();
+                if (invoiceDate.getMonth() === currentMonth && invoiceDate.getFullYear() === currentYear) {
+                    return sum + invoice.amount;
+                }
+                return sum;
+            }, 0);
+
+            document.getElementById('admin-total-clients').textContent = totalClients;
+            document.getElementById('admin-total-active-services').textContent = activeServices;
+            document.getElementById('admin-pending-payouts').textContent = pendingPayouts.toFixed(2);
+            document.getElementById('admin-monthly-revenue').textContent = monthlyRevenue.toFixed(2);
+        }
+
+        function updateAdminUsersTable() {
+            const adminUsersTableBody = document.getElementById('admin-users-table').querySelector('tbody');
+            adminUsersTableBody.innerHTML = '';
+            let userIdCounter = 1; // Simple counter for demo IDs
+
+            for (const username in users) {
+                const user = users[username];
+                const row = adminUsersTableBody.insertRow();
+                row.innerHTML = `
+                    <td>${userIdCounter++}</td>
+                    <td>${user.firstName} ${user.lastName}</td>
+                    <td>${user.email}</td>
+                    <td class="status-${user.role === 'client' ? 'active' : 'inactive'}">${user.role === 'client' ? 'Active' : 'Admin/Manager'}</td>
+                    <td>${'N/A'}</td> <td><button class="btn-primary btn-sm">Edit</button> <button class="btn-primary btn-sm" style="background-color: #dc3545;">${user.role === 'client' ? 'Deactivate' : 'Remove'}</button></td>
+                `;
+            }
+        }
+
+        function updateAdminInvoicesTable() {
+            const adminInvoicesTableBody = document.getElementById('admin-invoices-table').querySelector('tbody');
+            adminInvoicesTableBody.innerHTML = '';
+
+            if (adminInvoices.length === 0) {
+                adminInvoicesTableBody.innerHTML = '<tr><td colspan="6">No invoices recorded yet.</td></tr>';
+                return;
+            }
+
+            adminInvoices.forEach(invoice => {
+                const row = adminInvoicesTableBody.insertRow();
+                row.innerHTML = `
+                    <td>${invoice.invoiceNum}</td>
+                    <td>${invoice.clientUsername}</td>
+                    <td>R${invoice.amount.toFixed(2)}</td>
+                    <td class="status-${invoice.status.toLowerCase()}">${invoice.status}</td>
+                    <td>${invoice.dueDate}</td>
+                    <td><button class="btn-primary btn-sm">View</button> <button class="btn-primary btn-sm mark-paid-btn" data-invoice-num="${invoice.invoiceNum}">Mark Paid</button></td>
+                `;
+            });
+
+            // Add event listeners for "Mark Paid" buttons
+            document.querySelectorAll('.mark-paid-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const invoiceNum = e.target.dataset.invoiceNum;
+                    markInvoiceAsPaid(invoiceNum);
+                });
+            });
+        }
+
+        function markInvoiceAsPaid(invoiceNum) {
+            // Update adminInvoices
+            const adminInvoiceIndex = adminInvoices.findIndex(inv => inv.invoiceNum === invoiceNum);
+            if (adminInvoiceIndex > -1) {
+                adminInvoices[adminInvoiceIndex].status = 'Paid';
+                localStorage.setItem('adminInvoices', JSON.stringify(adminInvoices));
+            }
+
+            // Update client's invoices
+            for (const username in users) {
+                const user = users[username];
+                if (user.invoices) {
+                    const clientInvoiceIndex = user.invoices.findIndex(inv => inv.invoiceNum === invoiceNum);
+                    if (clientInvoiceIndex > -1) {
+                        user.invoices[clientInvoiceIndex].status = 'Paid';
+                        localStorage.setItem('users', JSON.stringify(users));
+                        break; // Invoice found and updated, no need to continue
+                    }
+                }
+            }
+            updateAdminInvoicesTable(); // Refresh admin invoice view
+            alert(`Invoice ${invoiceNum} marked as paid!`);
+        }
+
+
+        document.querySelectorAll('#adminPortal .admin-nav-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const targetId = e.target.dataset.target;
+
+                // Deactivate all content sections
+                document.querySelectorAll('#adminPortal .admin-content').forEach(content => {
+                    content.style.display = 'none';
+                });
+
+                // Activate the selected content section
+                document.getElementById(`${targetId}`).style.display = 'block';
+
+                // Update active button state
+                document.querySelectorAll('#adminPortal .admin-nav-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+
+                // Re-initialize charts or data if needed
+                if (targetId === 'admin-overview') {
+                    initAdminCharts();
+                    updateAdminDashboardData();
+                } else if (targetId === 'admin-users') {
+                    updateAdminUsersTable();
+                } else if (targetId === 'admin-invoices') {
+                    updateAdminInvoicesTable();
+                } else if (targetId === 'admin-chat') {
+                    updateAdminChatUsers();
+                    // If no user selected, disable input
+                    if (!currentAdminChatUser) {
+                        adminChatInput.disabled = true;
+                        adminSendChatBtn.disabled = true;
+                        adminChatCurrentUserHeader.textContent = 'Select a user to chat';
+                        adminChatDisplay.innerHTML = '<div class="chat-message system">Select a user from the left panel to start chatting.</div>';
+                    } else {
+                        loadAdminChatMessages(currentAdminChatUser);
+                    }
+                }
+            });
+        });
+
+        function initAdminCharts() {
+            if (revenueExpenseChart) {
+                revenueExpenseChart.destroy(); // Destroy existing chart if it exists
+            }
+            const ctx = document.getElementById('revenueExpenseChart').getContext('2d');
+            revenueExpenseChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                    datasets: [
+                        {
+                            label: 'Revenue (ZAR)',
+                            data: [12000, 15000, 13000, 17000, 16000, 19000, 15000],
+                            backgroundColor: '#FF6600', // Orange
+                            borderColor: '#FF6600',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Expenses (ZAR)',
+                            data: [7000, 8000, 7500, 9000, 8500, 9500, 8000],
+                            backgroundColor: '#4CAF50', // Green
+                            borderColor: '#4CAF50',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#E0E0E0' // White for Y-axis labels
+                            },
+                            grid: {
+                                color: '#333' // Darker grid lines
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#E0E0E0' // White for X-axis labels
+                            },
+                            grid: {
+                                color: '#333'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#FFFFFF' // White for legend text
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+
+        // --- Live Chat Functionality (Client Side) ---
+        openChatBtn.addEventListener('click', () => {
+            if (!currentUser) {
+                alert('Please log in to use the live chat.');
+                openModal(loginModal);
+                loginErrorMessage.textContent = 'You need to be logged in to chat with support.';
+                loginErrorMessage.style.display = 'block';
+                return;
+            }
+            openModal(chatModal);
+            loadClientChatMessages(currentUser.username); // Load messages for current user
+            chatMessagesDisplay.scrollTop = chatMessagesDisplay.scrollHeight; // Scroll to bottom on open
+        });
+
+        sendChatBtn.addEventListener('click', sendClientMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendClientMessage();
+            }
+        });
+
+        function sendClientMessage() {
+            const messageText = chatInput.value.trim();
+            if (messageText && currentUser) {
+                const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const message = { sender: 'self', message: messageText, timestamp: timestamp };
+
+                if (!chatMessages[currentUser.username]) {
+                    chatMessages[currentUser.username] = [];
+                }
+                chatMessages[currentUser.username].push(message);
+                localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+
+                // Add to client's display
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('chat-message', 'self');
+                messageDiv.innerHTML = `<p>${messageText}</p><span class="timestamp">${timestamp}</span>`;
+                chatMessagesDisplay.appendChild(messageDiv);
+                chatInput.value = '';
+                chatMessagesDisplay.scrollTop = chatMessagesDisplay.scrollHeight;
+
+                // Simulate admin response and notify admin portal
+                setTimeout(() => {
+                    const adminResponse = { sender: 'other', message: 'Got it. An agent will reply soon. Please wait for them.', timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
+                    chatMessages[currentUser.username].push(adminResponse);
+                    localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+
+                    const responseDiv = document.createElement('div');
+                    responseDiv.classList.add('chat-message', 'other');
+                    responseDiv.innerHTML = `<p>${adminResponse.message}</p><span class="timestamp">${adminResponse.timestamp}</span>`;
+                    chatMessagesDisplay.appendChild(responseDiv);
+                    chatMessagesDisplay.scrollTop = chatMessagesDisplay.scrollHeight;
+
+                    // Notify admin of new message (simulated)
+                    notifyAdminOfNewMessage(currentUser.username);
+                }, 1500);
+            }
+        }
+
+        function loadClientChatMessages(username) {
+            chatMessagesDisplay.innerHTML = '';
+            const messages = chatMessages[username] || [];
+            messages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('chat-message', msg.sender);
+                messageDiv.innerHTML = `<p>${msg.message}</p><span class="timestamp">${msg.timestamp}</span>`;
+                chatMessagesDisplay.appendChild(messageDiv);
+            });
+            chatMessagesDisplay.scrollTop = chatMessagesDisplay.scrollHeight;
+        }
+
+
+        // --- Admin Live Chat Functionality ---
+        function updateAdminChatUsers() {
+            adminChatUsersList.innerHTML = '<h4>Active Chats</h4>';
+            for (const username in users) {
+                // Only list clients for now, or other specific roles
+                if (users[username].role === 'client' || users[username].role === 'manager') {
+                    const userItem = document.createElement('div');
+                    userItem.classList.add('chat-user-item');
+                    userItem.dataset.userId = username;
+                    userItem.textContent = `${users[username].firstName} (${users[username].role === 'client' ? 'Client' : 'Manager'})`;
+
+                    if (currentAdminChatUser === username) {
+                        userItem.classList.add('active');
+                    }
+                    if (chatMessages[username] && chatMessages[username].some(msg => msg.sender !== 'admin' && !msg.readByAdmin)) {
+                         userItem.classList.add('has-new-messages');
+                    }
+
+
+                    userItem.addEventListener('click', () => {
+                        selectAdminChatUser(username);
+                    });
+                    adminChatUsersList.appendChild(userItem);
+                }
+            }
+        }
+
+        function selectAdminChatUser(username) {
+            currentAdminChatUser = username;
+            adminChatCurrentUserHeader.textContent = `Chatting with: ${users[username].firstName}`;
+            adminChatInput.disabled = false;
+            adminSendChatBtn.disabled = false;
+
+            // Mark messages as read for this user
+            if (chatMessages[username]) {
+                chatMessages[username].forEach(msg => {
+                    if (msg.sender !== 'admin') {
+                        msg.readByAdmin = true;
+                    }
+                });
+                localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+            }
+
+            loadAdminChatMessages(username);
+            updateAdminChatUsers(); // Refresh user list to remove 'has-new-messages' class
+        }
+
+        function loadAdminChatMessages(username) {
+            adminChatDisplay.innerHTML = '';
+            const messages = chatMessages[username] || [];
+            if (messages.length === 0) {
+                 adminChatDisplay.innerHTML = '<div class="chat-message system">No messages yet. Send a message to start the conversation.</div>';
+            }
+            messages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                // Admin's own messages are 'self', others (client/manager) are 'other'
+                const senderClass = msg.sender === 'admin' ? 'self' : msg.sender === 'system' ? 'system' : 'other';
+                messageDiv.classList.add('chat-message', senderClass);
+                messageDiv.innerHTML = `<p>${msg.message}</p><span class="timestamp">${msg.timestamp}</span>`;
+                adminChatDisplay.appendChild(messageDiv);
+            });
+            adminChatDisplay.scrollTop = adminChatDisplay.scrollHeight;
+        }
+
+        adminSendChatBtn.addEventListener('click', sendAdminMessage);
+        adminChatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendAdminMessage();
+            }
+        });
+
+        function sendAdminMessage() {
+            const messageText = adminChatInput.value.trim();
+            if (messageText && currentAdminChatUser) {
+                const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const message = { sender: 'admin', message: messageText, timestamp: timestamp };
+
+                if (!chatMessages[currentAdminChatUser]) {
+                    chatMessages[currentAdminChatUser] = [];
+                }
+                chatMessages[currentAdminChatUser].push(message);
+                localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+
+                // Add to admin's display
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('chat-message', 'self');
+                messageDiv.innerHTML = `<p>${messageText}</p><span class="timestamp">${timestamp}</span>`;
+                adminChatDisplay.appendChild(messageDiv);
+                adminChatInput.value = '';
+                adminChatDisplay.scrollTop = adminChatDisplay.scrollHeight;
+
+                // Simulate client receiving the message (notifying client chat if open)
+                if (currentUser && currentUser.username === currentAdminChatUser) {
+                    loadClientChatMessages(currentUser.username);
+                }
+            }
+        }
+
+        // Simulate new message notification for admin
+        function notifyAdminOfNewMessage(username) {
+            const userItem = adminChatUsersList.querySelector(`[data-user-id="${username}"]`);
+            if (userItem && currentAdminChatUser !== username) {
+                userItem.classList.add('has-new-messages');
+                // In a real app, you'd trigger a desktop notification or sound
+                console.log(`New message from ${username}!`);
+            } else if (currentAdminChatUser === username) {
+                loadAdminChatMessages(username); // Auto-load if admin is already on that chat
+            }
+        }
+
+        // Initial update calls
+        updateCartDisplay();
+
+        // Check login status on page load
+        if (currentUser) {
+            if (currentUser.role === 'admin') {
+                showAdminPortal();
+            } else {
+                showUserPortal(currentUser.username);
+            }
+            hideMainSections();
+            header.style.display = 'none';
+        }
+
+    </script>
+</body>
+</html>
